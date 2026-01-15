@@ -20,7 +20,13 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--background) url('/skiSantaFe.jpg') center/cover no-repeat scroll;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ensure content remains readable over the background image */
+html, body {
+  background-color: rgba(0,0,0,0);
+}
+

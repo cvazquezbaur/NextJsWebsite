@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: #0b6b3a; /* solid pine base */
+  /* steeper, mostly-transparent overlay to add subtle shine without color gradient */
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 18%, rgba(255,255,255,0) 40%);
+  background-blend-mode: overlay;
+  transition: background-color 150ms ease, transform 120ms ease, box-shadow 120ms ease;
+  box-shadow: 0 4px 10px rgba(17, 24, 39, 0.08);
+}
+
+.btn:hover {
+  background-color: #064b2a; /* slightly darker solid on hover */
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 30%);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
