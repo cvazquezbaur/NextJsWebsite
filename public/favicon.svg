@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Red mountain favicon">
+  <defs>
+    <linearGradient id="mountainGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#b71c1c"/>
+    </linearGradient>
+    <linearGradient id="shadowGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#9b1b1b"/>
+      <stop offset="100%" stop-color="#6f0f0f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" fill="transparent"/>
+
+  <!-- Distant hill -->
+  <path d="M0 46 C16 34, 48 40, 64 28 L64 64 L0 64 Z" fill="#7c2a2a" opacity="0.12" />
+
+  <!-- Main mountain -->
+  <polygon points="6,54 30,14 58,54" fill="url(#mountainGrad)" />
+
+  <!-- Left slope shadow -->
+  <path d="M6 54 L30 14 L34 22 L12 50 Z" fill="url(#shadowGrad)" opacity="0.18" />
+
+  <!-- Snow cap / highlight -->
+  <path d="M30 14 L26 22 L32 20 L36 26 L34 22 L38 20 Z" fill="#fff" opacity="0.9" />
+
+</svg>

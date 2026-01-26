@@ -13,6 +13,7 @@ export default function Navbar() {
     ["Tech", "/tech"],
     ["Performance", "/performance"],
     ["Outdoors", "/outdoors"],
+    ["Upload", "/upload"],
     ["Contact", "/contact"],
   ];
 
