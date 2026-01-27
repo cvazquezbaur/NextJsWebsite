@@ -13,8 +13,9 @@ export default function Navbar() {
     ["Tech", "/tech"],
     ["Performance", "/performance"],
     ["Outdoors", "/outdoors"],
-    ["Upload", "/upload"],
     ["Contact", "/contact"],
+    ["Upload", "/upload"],
+    ["Login", "/login"],
   ];
 
   const [open, setOpen] = useState(false);
