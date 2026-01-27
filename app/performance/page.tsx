@@ -4,13 +4,7 @@ export default function PerformancePage() {
   return (
     <main style={{ padding: '4rem', minHeight: '60vh' }}>
       <TextContainer 
-        textSections={[[
-            "Performance Information",
-            [
-                "Performance projects, benchmarks, and optimizations will be showcased here."
-            ]
-            
-        ]]}
+        textSections={[{ title: "Performances", content: ["Explore my performances in theater, music, and more"] }]}
       />
     </main>
   );

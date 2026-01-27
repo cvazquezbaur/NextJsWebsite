@@ -22,7 +22,7 @@ export default function UploadPage() {
   return (
     <main style={{ padding: "4rem", minHeight: "60vh" }}>
       <TextContainer
-        textSections={[["Upload", ["Upload and manage your files"]]]}
+        textSections={[{ title: "Media Upload", content: ["Upload and manage your media files"] }]}
       />
 
       <section className="mx-auto my-6 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl">
