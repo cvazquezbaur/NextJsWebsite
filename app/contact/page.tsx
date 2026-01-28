@@ -5,8 +5,7 @@ const headerText = {
   title: "Contact Me",
   content: [
     "I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.",
-    "You can contact me via email at cvazquezbaur@gmail.com.",
-    "Alternatively, you can fill out the contact form below and I'll get back to you as soon as possible.",
+    "You can fill out the contact form below and I'll get back to you as soon as possible.",
   ],
 };
 

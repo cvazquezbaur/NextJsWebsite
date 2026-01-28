@@ -23,7 +23,7 @@ export default function ContactForm() {
   }, [state.success]);
 
   return (
-    <form action={formAction} className="space-y-4 mx-auto p-6 rounded-xl border border-zinc-800 bg-black/20 backdrop-blur-sm">
+    <form action={formAction} className="space-y-4 mx-auto p-6 rounded-xl border border-white-800 bg-black/20">
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label htmlFor="name" className="block mb-1 text-sm font-medium text-zinc-400">Name</label>
@@ -32,7 +32,7 @@ export default function ContactForm() {
             id="name" 
             required 
             placeholder="John Doe"
-            className="w-full border border-zinc-700 p-2 rounded-lg text-white bg-zinc-500/10 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+            className="w-full border border-white-700 p-2 rounded-lg text-white bg-zinc-500/10 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
           />
         </div>
 
@@ -44,7 +44,7 @@ export default function ContactForm() {
             type="email" 
             required 
             placeholder="john@example.com"
-            className="w-full border border-zinc-700 p-2 rounded-lg text-white bg-zinc-500/10 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+            className="w-full border border-white-700 p-2 rounded-lg text-white bg-zinc-500/10 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
           />
         </div>
       </div>
@@ -57,7 +57,7 @@ export default function ContactForm() {
           required 
           rows={5}
           placeholder="How can I help you?"
-          className="w-full border border-zinc-700 p-2 rounded-lg text-white bg-zinc-500/10 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+          className="w-full border border-white-700 p-2 rounded-lg text-white bg-zinc-500/10 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
         />
       </div>
 
