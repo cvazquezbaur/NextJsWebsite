@@ -14,7 +14,6 @@ export default function UploadPage() {
   const [previewType, setPreviewType] = useState<'image' | 'video' | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  // Clean up preview URLs to prevent memory leaks
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
@@ -55,7 +54,6 @@ export default function UploadPage() {
       const newBlob = await upload(file.name, file, {
         access: "public",
         handleUploadUrl: "/api/avatar/upload",
-        // This payload is sent to onUploadCompleted in route.ts
         clientPayload: JSON.stringify({
           size_bytes: file.size,
         }),
@@ -72,15 +70,19 @@ export default function UploadPage() {
   };
 
   return (
-    <main className="p-8 sm:p-16 min-h-screen bg-zinc-950">
+    <main className="p-8 sm:p-16 min-h-screen">
       <TextContainer
-        textSections={[{ title: "Media Manager", content: ["Upload assets directly to Vercel Blob and Neon Postgres."] }]}
+        textSections={[{ 
+          title: "Media Manager", 
+          content: ["Upload assets directly to Vercel Blob and Neon Postgres."] 
+        }]}
       />
 
-      <section className="mx-auto my-10 w-full max-w-4xl">
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 shadow-2xl backdrop-blur-md">
+      {/* Reduced max-width to match TextContainer's default sm:max-w-3xl */}
+      <section className="mx-auto my-8 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl">
+        <div className="bg-linear-to-b from-black/80 via-black/60 to-black/50 border border-white/10 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-md">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-700 rounded-xl p-10 bg-zinc-900/30 hover:bg-zinc-900/50 transition-colors group">
+            <div className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-800 rounded-xl p-8 bg-black/20 hover:bg-black/40 transition-colors group">
               <input
                 name="file"
                 ref={inputFileRef}
@@ -94,54 +96,54 @@ export default function UploadPage() {
               />
               <label 
                 htmlFor="file-upload" 
-                className="cursor-pointer flex flex-col items-center gap-3 text-zinc-400 group-hover:text-zinc-200"
+                className="cursor-pointer flex flex-col items-center gap-3 text-zinc-500 group-hover:text-zinc-300"
               >
-                <UploadCloud className="w-12 h-12 mb-2" />
-                <span className="font-medium text-lg">Click to select or drag and drop</span>
-                <span className="text-xs text-zinc-500 uppercase">Images or MP4 (Max 4.5MB)</span>
+                <UploadCloud className="w-10 h-10 mb-1" />
+                <span className="font-medium text-base">Click to select or drag and drop</span>
+                <span className="text-[10px] text-zinc-600 uppercase tracking-widest">Images or MP4</span>
               </label>
             </div>
 
             {/* Preview Section */}
             {preview && (
-              <div className="flex justify-center bg-black/40 p-4 rounded-xl border border-zinc-800">
+              <div className="flex justify-center bg-black/40 p-2 rounded-xl border border-white/5">
                 {previewType === "image" ? (
-                  <img src={preview} alt="Preview" className="max-h-64 rounded-lg shadow-lg" />
+                  <img src={preview} alt="Preview" className="max-h-48 rounded-lg shadow-lg" />
                 ) : (
-                  <video src={preview} controls className="max-h-64 rounded-lg shadow-lg" />
+                  <video src={preview} controls className="max-h-48 rounded-lg shadow-lg" />
                 )}
               </div>
             )}
 
             <button 
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20" 
+              className="w-full flex items-center justify-center gap-2 bg-white text-black hover:bg-zinc-200 font-bold py-3 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed" 
               type="submit"
               disabled={isUploading}
             >
               {isUploading ? (
                 <>
                   <Loader2 className="animate-spin w-5 h-5" />
-                  <span>Processing Upload...</span>
+                  <span>Processing...</span>
                 </>
               ) : (
-                "Start Upload"
+                "Upload Asset"
               )}
             </button>
 
             {/* Status Messages */}
             {error && (
-              <div className="flex items-center gap-2 text-red-400 bg-red-400/10 p-4 rounded-lg border border-red-400/20">
+              <div className="flex items-center gap-2 text-red-400 bg-red-400/5 p-4 rounded-lg border border-red-400/20">
                 <AlertCircle className="w-5 h-5" />
                 <p className="text-sm">{error}</p>
               </div>
             )}
 
             {blob && (
-              <div className="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-xl">
-                <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+              <div className="flex items-center gap-3 bg-white/5 border border-white/10 p-4 rounded-xl">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                 <div className="flex-1 overflow-hidden">
-                  <p className="font-bold text-emerald-400">File successfully synced!</p>
-                  <p className="text-xs text-zinc-500 truncate">{blob.url}</p>
+                  <p className="font-bold text-white text-sm">Sync Complete</p>
+                  <p className="text-[10px] text-zinc-500 truncate">{blob.url}</p>
                 </div>
                 <a 
                   href={blob.url} 
@@ -149,7 +151,7 @@ export default function UploadPage() {
                   rel="noreferrer"
                   className="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-200 px-3 py-1.5 rounded-md transition-colors"
                 >
-                  View File
+                  View
                 </a>
               </div>
             )}
