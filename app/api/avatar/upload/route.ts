@@ -23,9 +23,11 @@ export async function POST(request: Request): Promise<NextResponse> {
         //   throw new Error("Unauthorized access.");
         // }
         const { size_bytes } = JSON.parse(clientPayload || "{}");
+        const host = request.headers.get("host") || "localhost:3000";
+        const protocol = host?.includes('localhost') ? 'http' : 'https';
         return {
           allowedContentTypes: ["image/jpeg", "image/png", "image/webp", "video/mp4"],
-          callbackUrl: `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/avatar/upload`,
+          callbackUrl: `${protocol}://${host}/api/avatar/upload`,
           tokenPayload: JSON.stringify({ 
             // userId: session.user.id,
             fileSize: size_bytes
