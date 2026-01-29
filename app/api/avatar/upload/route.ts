@@ -19,7 +19,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         }
 
         // 2. Optional: Check if the user is YOU (the admin)
-        if (session.user?.email !== "your-email@example.com") {
+        if (session.user?.email !== "cvazquezbaur@gmail.com") {
           throw new Error("Unauthorized access.");
         }
 

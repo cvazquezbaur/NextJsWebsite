@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "email": "email dev"
+    "email": "email dev",
+    "db:push": "pnpm drizzle-kit push"
   },
   "dependencies": {
     "@auth/pg-adapter": "^1.11.1",
@@ -29,6 +30,7 @@
     "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",

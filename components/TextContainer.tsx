@@ -22,7 +22,7 @@ export default function TextContainer({ textSections = [], children, className =
                 <div className="space-y-8">
                     {textSections.map((section, i) => (
                         <article key={i} className="prose prose-invert max-w-none">
-                            <h2 className="text-2xl sm:text-3xl font-semibold mb-2">{section.title}</h2>
+                            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">{section.title}</h1>
                             <div className="space-y-3 text-base sm:text-lg leading-relaxed text-white/95">
                                 {section.content.map((paragraph, j) => (
                                     <p key={j}>{paragraph}</p>
