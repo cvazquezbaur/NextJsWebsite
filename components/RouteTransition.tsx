@@ -1,43 +1,39 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import styles from './RouteTransition.module.css';
 
 export default function RouteTransition({
   children,
-  timeout = 700,
 }: {
   children: React.ReactNode;
-  timeout?: number;
 }) {
-  const pathname = usePathname() || '/';
-  const [displayPath, setDisplayPath] = React.useState(pathname);
-  const [visible, setVisible] = React.useState(false);
+  const pathname = usePathname();
+  const [visible, setVisible] = useState(false);
 
-  // initial mount: fade in
-  React.useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 10);
-    return () => clearTimeout(t);
-  }, []);
-
-  // handle route change: fade out, switch, fade in
-  React.useEffect(() => {
-    if (pathname === displayPath) return;
+  useEffect(() => {
+    // 1. Hide immediately on route change
     setVisible(false);
+
+    // 2. A slightly longer delay (100ms) ensures the new page 
+    // is fully mounted before we start the long fade-in.
     const t = setTimeout(() => {
-      setDisplayPath(pathname);
-      // allow next tick to mount then fade in
-      requestAnimationFrame(() => setVisible(true));
-    }, timeout);
+      setVisible(true);
+    }, 100);
+
     return () => clearTimeout(t);
-  }, [pathname, displayPath, timeout]);
+  }, [pathname]);
 
   return (
-    <div className={styles.container}>
+    <div className="w-full flex justify-center">
       <div
-        key={displayPath}
-        className={`${styles.page} ${visible ? styles.enter : styles.exit}`}
+        className={`
+          w-full will-change-opacity
+          transition-opacity 
+          duration-[2000ms] 
+          ease-in-out
+          ${visible ? "opacity-100" : "opacity-0"}
+        `}
       >
         {children}
       </div>

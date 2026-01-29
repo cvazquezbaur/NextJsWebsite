@@ -12,7 +12,7 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="p-8 sm:p-16 min-h-[80vh] flex flex-col items-center justify-center bg-zinc-950">
+    <main className="p-8 sm:p-16 min-h-[80vh] flex flex-col items-center justify-center">
       <TextContainer
         textSections={[{ 
           title: "Admin Access", 
