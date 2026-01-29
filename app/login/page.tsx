@@ -6,9 +6,14 @@ import TextContainer from "@/components/TextContainer";
 export default async function LoginPage() {
   const session = await auth();
 
-  // If already logged in, send them to the upload manager
   if (session) {
     redirect("/upload");
+  }
+
+  // Define the action here
+  async function handleSignIn() {
+    "use server";
+    await signIn("github", { redirectTo: "/upload" });
   }
 
   return (
@@ -26,12 +31,7 @@ export default async function LoginPage() {
             This area is restricted. Sign in with an authorized GitHub account to continue.
           </p>
 
-          <form
-            action={async () => {
-              "use server";
-              await signIn("github", { redirectTo: "/upload" });
-            }}
-          >
+          <form action={handleSignIn}>
             <button
               type="submit"
               className="w-full flex items-center justify-center gap-3 bg-white hover:bg-zinc-200 text-black font-bold py-3 px-6 rounded-xl transition-all shadow-lg"
