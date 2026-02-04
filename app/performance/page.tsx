@@ -1,7 +1,19 @@
+import { db } from "@/lib/db";
+import { mediaFiles } from "@/lib/schema";
+import { desc } from "drizzle-orm";
 import Gallery from "@/components/GalleryContainer";
 import TextContainer from "@/components/TextContainer";
 
-export default function PerformancePage() {
+interface MediaItem {
+  id: number;
+  file_name: string;
+  url: string;
+  content_type: string | null;
+  size_bytes: number | null;
+  created_at: Date | null;
+}
+
+export default async function PerformancePage() {
   const textBody1 = [{
     title: "Performance",
     content: [
@@ -13,13 +25,21 @@ export default function PerformancePage() {
       "Singing and performing have always been a vital part of my life and identity. They have provided me with a sense of purpose, community, and self-expression that I cherish deeply. They, and the communities they have facilitated for me, have allowed me to really dig deep into identity and masculinity, and afforded me the opportunity to become a strong and healthy male role model for other young men of color who may be feeling as lost as I was growing up. I look forward to continuing to share my love for music and performance with others for many years to come.",
     ],
   }];
-
+  let media: MediaItem[] = [];
+  try {
+    media = await db
+      .select()
+      .from(mediaFiles)
+      .orderBy(desc(mediaFiles.created_at));
+  } catch (error) {
+    console.error("Failed to fetch gallery:", error);
+  }
   return (
     <main style={{ padding: '4rem', minHeight: '60vh' }}>
       <TextContainer 
         textSections={textBody1}
       >
-        <Gallery />
+        <Gallery items={media}/>
       </TextContainer>
     </main>
   );
