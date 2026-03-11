@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { mediaFiles } from "@/lib/schema";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import Gallery from "@/components/GalleryContainer";
 import TextContainer from "@/components/TextContainer";
 
@@ -30,17 +30,15 @@ export default async function PerformancePage() {
     media = await db
       .select()
       .from(mediaFiles)
+      .where(eq(mediaFiles.category, "performance"))
       .orderBy(desc(mediaFiles.created_at));
   } catch (error) {
     console.error("Failed to fetch gallery:", error);
   }
   return (
     <main style={{ padding: '4rem', minHeight: '60vh' }}>
-      <TextContainer 
-        textSections={textBody1}
-      >
-        <Gallery items={media}/>
-      </TextContainer>
+      <TextContainer textSections={textBody1} />
+      <Gallery items={media} />
     </main>
   );
 }

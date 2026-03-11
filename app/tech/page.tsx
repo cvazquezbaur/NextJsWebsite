@@ -1,6 +1,30 @@
+import { db } from "@/lib/db";
+import { mediaFiles } from "@/lib/schema";
+import { desc, eq } from "drizzle-orm";
+import Gallery from "@/components/GalleryContainer";
 import TextContainer from "@/components/TextContainer";
 
-export default function TechPage() {
+interface MediaItem {
+  id: number;
+  file_name: string;
+  url: string;
+  content_type: string | null;
+  size_bytes: number | null;
+  created_at: Date | null;
+}
+
+export default async function TechPage() {
+  let media: MediaItem[] = [];
+  try {
+    media = await db
+      .select()
+      .from(mediaFiles)
+      .where(eq(mediaFiles.category, "tech"))
+      .orderBy(desc(mediaFiles.created_at));
+  } catch (error) {
+    console.error("Failed to fetch gallery:", error);
+  }
+
   return (
     <main style={{ padding: '4rem', minHeight: '60vh' }}>
       <TextContainer 
@@ -12,7 +36,9 @@ export default function TechPage() {
             "Thank you for visiting my tech portfolio. If you'd like to get in touch or discuss potential opportunities, please don't hesitate to reach out!"
           ] 
         }]}
-      />
+      >
+        <Gallery items={media} />
+      </TextContainer>
     </main>
   );
 }

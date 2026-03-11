@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname() || "/";
+  const { data: session } = useSession();
 
   const navItems: Array<[string, string]> = [
     ["Home", "/"],
@@ -14,8 +17,7 @@ export default function Navbar() {
     ["Performance", "/performance"],
     ["Outdoors", "/outdoors"],
     ["Contact", "/contact"],
-    ["Upload", "/upload"],
-    ["Login", "/login"],
+    ...(session ? [["Upload", "/upload"] as [string, string]] : []),
   ];
 
   const [open, setOpen] = useState(false);
@@ -37,6 +39,22 @@ export default function Navbar() {
               </Link>
             );
           })}
+          {session ? (
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="text-sm text-current opacity-90 px-2 py-1 rounded-md hover:bg-black/5 hover:opacity-100 flex items-center gap-1"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className={`text-sm text-current opacity-90 px-2 py-1 rounded-md hover:bg-black/5 hover:opacity-100 ${pathname === '/login' ? 'font-semibold bg-black/10 opacity-100' : ''}`}
+            >
+              Login
+            </Link>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -69,6 +87,23 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          {session ? (
+            <button
+              onClick={() => { setOpen(false); signOut({ callbackUrl: "/" }); }}
+              className="w-full text-center py-2 rounded-md text-sm hover:bg-black/5 flex items-center justify-center gap-1"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setOpen(false)}
+              className={`w-full text-center py-2 rounded-md text-sm hover:bg-black/5 ${pathname === '/login' ? 'font-semibold bg-black/10' : ''}`}
+            >
+              Login
+            </Link>
+          )}
         </div>
       )}
     </nav>

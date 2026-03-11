@@ -6,6 +6,12 @@ import { type PutBlobResult } from "@vercel/blob";
 import TextContainer from "@/components/TextContainer";
 import { Loader2, UploadCloud, CheckCircle2, AlertCircle } from "lucide-react";
 
+const CATEGORIES = [
+  { value: "tech", label: "Tech" },
+  { value: "performance", label: "Performance" },
+  { value: "outdoors", label: "Outdoors" },
+] as const;
+
 export default function UploadPage() {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
@@ -13,6 +19,7 @@ export default function UploadPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [previewType, setPreviewType] = useState<'image' | 'video' | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [category, setCategory] = useState<string>("tech");
 
   useEffect(() => {
     return () => {
@@ -56,6 +63,7 @@ export default function UploadPage() {
         handleUploadUrl: "/api/avatar/upload",
         clientPayload: JSON.stringify({
           size_bytes: file.size,
+          category,
         }),
       });
 
@@ -82,6 +90,26 @@ export default function UploadPage() {
       <section className="mx-auto my-8 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl">
         <div className="bg-linear-to-b from-black/80 via-black/60 to-black/50 border border-white/10 rounded-2xl p-6 sm:p-10 shadow-xl backdrop-blur-md">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Category Selector */}
+            <div>
+              <label htmlFor="category" className="block mb-2 text-sm font-medium text-zinc-400">
+                Category
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                disabled={isUploading}
+                className="w-full border border-white/10 p-3 rounded-xl text-white bg-black/40 outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all"
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat.value} value={cat.value} className="bg-zinc-900">
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-800 rounded-xl p-8 bg-black/20 hover:bg-black/40 transition-colors group">
               <input
                 name="file"

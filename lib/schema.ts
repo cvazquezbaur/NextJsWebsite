@@ -7,6 +7,8 @@ export const mediaFiles = pgTable("media_files", {
   content_type: varchar("content_type", { length: 50 }),
   // 'bigint' with 'mode: number' is perfect for file sizes in bytes
   size_bytes: bigint("size_bytes", { mode: "number" }),
+  // Category for which page this media belongs to
+  category: varchar("category", { length: 50 }).notNull().default("uncategorized"),
   // Add 'withTimezone: true' to match your 'TIMESTAMP WITH TIME ZONE' SQL
   created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
