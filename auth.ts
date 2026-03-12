@@ -1,42 +1,61 @@
 import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
-import PostgresAdapter from "@auth/pg-adapter";
-import { Pool } from "pg";
-
-const pool = new Pool({
-  ssl: {
-    rejectUnauthorized: false, 
-  },
-  connectionString: process.env.DATABASE_URL,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+import Credentials from "next-auth/providers/credentials";
+import { compare } from "bcryptjs";
+import { db } from "@/lib/db";
+import { users } from "@/lib/schema";
+import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PostgresAdapter(pool),
   providers: [
-    GitHub({
-      // You can leave these blank and Auth.js will find them, 
-      // but being explicit ensures they map to your env variables
-      clientId: process.env.AUTH_GITHUB_ID,
-      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    Credentials({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const email = credentials?.email as string;
+        const password = credentials?.password as string;
+
+        if (!email || !password) return null;
+
+        const [user] = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, email))
+          .limit(1);
+
+        if (!user) return null;
+
+        const isValid = await compare(password, user.password_hash);
+        if (!isValid) return null;
+
+        return {
+          id: String(user.id),
+          name: user.name,
+          email: user.email,
+        };
+      },
     }),
   ],
   session: {
-    strategy: "database", // Ensures sessions are stored in Neon
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
   },
   callbacks: {
-    async session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user && token.id) {
+        session.user.id = token.id as string;
       }
       return session;
-    },
-    async signIn({ user }) {
-      // Security: Only allow YOUR email to access the admin features
-      const allowedEmail = "cvazquezbaur@gmail.com";
-      return user.email === allowedEmail;
     },
   },
 });

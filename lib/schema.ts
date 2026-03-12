@@ -13,26 +13,11 @@ export const mediaFiles = pgTable("media_files", {
   created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
-export const users = pgTable("user", {
-  id: text("id").notNull().primaryKey(),
-  name: text("name"),
-  email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  password_hash: text("password_hash").notNull(),
+  role: varchar("role", { length: 50 }).notNull().default("admin"),
+  created_at: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
-
-export const accounts = pgTable("account", {
-  userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  type: text("type").notNull(),
-  provider: text("provider").notNull(),
-  providerAccountId: text("providerAccountId").notNull(),
-  refresh_token: text("refresh_token"),
-  access_token: text("access_token"),
-  expires_at: integer("expires_at"),
-  token_type: text("token_type"),
-  scope: text("scope"),
-  id_token: text("id_token"),
-  session_state: text("session_state"),
-}, (account) => ({
-  compoundKey: primaryKey({ columns: [account.provider, account.providerAccountId] }),
-}));
