@@ -17,7 +17,7 @@ export default function Navbar() {
     ["Performance", "/performance"],
     ["Outdoors", "/outdoors"],
     ["Contact", "/contact"],
-    ...(session ? [["Upload", "/upload"] as [string, string]] : []),
+    ...(session ? [["Admin", "/admin"] as [string, string]] : []),
   ];
 
   const [open, setOpen] = useState(false);
