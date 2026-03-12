@@ -81,11 +81,11 @@ export default function Gallery({ items = [] }: { items: MediaItem[] }) {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {items.map((item) => (
-            <div key={item.id} className="w-full flex-shrink-0 aspect-video relative">
+            <div key={item.id} className="w-full flex-shrink-0 h-[70vh] relative bg-black/40">
               {item.content_type?.startsWith('video/') ? (
-                <video src={item.url} className="w-full h-full object-cover" preload="metadata" />
+                <video src={item.url} className="w-full h-full object-contain" preload="metadata" />
               ) : (
-                <img src={item.url} alt={item.file_name} className="w-full h-full object-cover" />
+                <img src={item.url} alt={item.file_name} className="w-full h-full object-contain" />
               )}
               
               <button 
