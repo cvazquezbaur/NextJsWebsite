@@ -23,7 +23,7 @@ export async function POST(request: Request): Promise<NextResponse> {
           throw new Error("Unauthorized access.");
         }
 
-        const { size_bytes, category } = JSON.parse(clientPayload || "{}");
+        const { size_bytes, category, displayName } = JSON.parse(clientPayload || "{}");
         const host = request.headers.get("host") || "localhost:3000";
         const protocol = host?.includes('localhost') ? 'http' : 'https';
         return {
@@ -33,15 +33,16 @@ export async function POST(request: Request): Promise<NextResponse> {
             userId: session.user?.id,
             fileSize: size_bytes,
             category: category || "uncategorized",
+            displayName: displayName || null,
           }),
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
         console.log("Upload completed, syncing to Neon...", blob.url);
-        const { fileSize, category } = JSON.parse(tokenPayload || "{}");
+        const { fileSize, category, displayName } = JSON.parse(tokenPayload || "{}");
         try {
           await db.insert(mediaFiles).values({
-            file_name: blob.pathname,
+            file_name: displayName || blob.pathname,
             url: blob.url,
             content_type: blob.contentType,
             size_bytes: fileSize || 0,

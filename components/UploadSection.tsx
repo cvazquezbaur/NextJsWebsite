@@ -19,6 +19,7 @@ export default function UploadSection() {
   const [previewType, setPreviewType] = useState<'image' | 'video' | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [category, setCategory] = useState<string>("tech");
+  const [displayName, setDisplayName] = useState<string>("");
 
   useEffect(() => {
     return () => {
@@ -63,11 +64,13 @@ export default function UploadSection() {
         clientPayload: JSON.stringify({
           size_bytes: file.size,
           category,
+          displayName: displayName.trim() || undefined,
         }),
       });
 
       setBlob(newBlob);
       setPreview(null);
+      setDisplayName("");
       if (inputFileRef.current) inputFileRef.current.value = "";
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -98,6 +101,21 @@ export default function UploadSection() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label htmlFor="displayName" className="block mb-2 text-sm font-medium text-zinc-400">
+              Display Name <span className="text-zinc-600">(optional — defaults to file name)</span>
+            </label>
+            <input
+              id="displayName"
+              type="text"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              disabled={isUploading}
+              placeholder="e.g. Sunset at Sandia Peak"
+              className="w-full border border-white/10 p-3 rounded-xl text-white bg-black/40 outline-none focus:ring-2 focus:ring-white/20 focus:border-transparent transition-all placeholder:text-zinc-600"
+            />
           </div>
 
           <div className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-800 rounded-xl p-8 bg-black/20 hover:bg-black/40 transition-colors group">
