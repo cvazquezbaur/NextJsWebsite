@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import ButtonContainer from "@/components/ButtonContainer";
 import TextContainer from "@/components/TextContainer";
+
+export const metadata: Metadata = {
+    title: "About",
+    description:
+        "Learn about Carlos Vazquez Baur's background, career journey, and personal story.",
+    alternates: {
+        canonical: "/about",
+    },
+};
 
 
 export default function AboutPage() {

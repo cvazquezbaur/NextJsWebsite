@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { mediaFiles } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 import Gallery from "@/components/GalleryContainer";
 import TextContainer from "@/components/TextContainer";
+
+export const metadata: Metadata = {
+  title: "Outdoors",
+  description:
+    "Outdoor portfolio and adventures of Carlos Vazquez Baur including hiking, skiing, and wilderness experiences.",
+  alternates: {
+    canonical: "/outdoors",
+  },
+};
 
 interface MediaItem {
   id: number;

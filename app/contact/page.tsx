@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import TextContainer from "@/components/TextContainer";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Get in touch with Carlos Vazquez Baur for collaboration, opportunities, or questions.",
+  alternates: {
+    canonical: "/contact",
+  },
+};
 
 const headerText = {
   title: "Contact Me",

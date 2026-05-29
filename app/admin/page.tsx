@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import TextContainer from "@/components/TextContainer";
 import UploadSection from "@/components/UploadSection";
 import ChangePasswordForm from "@/components/ChangePasswordForm";
+
+export const metadata: Metadata = {
+  title: "Admin",
+  description: "Portfolio administration dashboard.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function AdminPage() {
   const session = await auth();

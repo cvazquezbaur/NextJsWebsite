@@ -1,9 +1,19 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { mediaFiles } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 import Gallery from "@/components/GalleryContainer";
 import TextContainer from "@/components/TextContainer";
 import { Download } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Tech Portfolio",
+  description:
+    "Technical portfolio of Carlos Vazquez Baur with software engineering experience, skills, and project highlights.",
+  alternates: {
+    canonical: "/tech",
+  },
+};
 
 interface MediaItem {
   id: number;

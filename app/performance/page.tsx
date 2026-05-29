@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { mediaFiles } from "@/lib/schema";
 import { desc, eq } from "drizzle-orm";
 import Gallery from "@/components/GalleryContainer";
 import TextContainer from "@/components/TextContainer";
+
+export const metadata: Metadata = {
+  title: "Performance",
+  description:
+    "Performance portfolio featuring music and theater background, experience, and media highlights.",
+  alternates: {
+    canonical: "/performance",
+  },
+};
 
 interface MediaItem {
   id: number;
